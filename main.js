@@ -3,6 +3,8 @@ const ctx = canvas.getContext('2d')
 
 let timer = 0;
 let cactuses = []
+let jump = false
+let jumpTimer = 0
 
 canvas.width = window.innerWidth - 100
 canvas.height = window.innerHeight - 100
@@ -26,11 +28,9 @@ class Trex extends ExtendClass(10, 'green') {}
 class Cactus extends ExtendClass(500, 'red') {}
 
 const trex = new Trex()
-const cactus = new Cactus()
 
 
 trex.draw()
-cactus.draw()
 
 const Frame = () => {
     requestAnimationFrame(Frame)
@@ -39,6 +39,7 @@ const Frame = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     if(timer % 120 == 0) {
+        const cactus = new Cactus()
         cactuses.push(cactus)
     }
 
@@ -46,10 +47,29 @@ const Frame = () => {
         if(a.x < 0) {
             o.splice(i, 1)
         }
-        a.x--
+        a.x -= 3
         a.draw()
     })
 
+    if(jump) {
+        trex.y -= 3
+        jumpTimer++
+    }
+    if(!jump) {
+        if(trex.y < 200){
+            trex.y += 3
+        }
+    }
+    if(jumpTimer == 50){
+        jump = false
+        jumpTimer = 0
+    }
     trex.draw()
 }
 Frame()
+
+document.addEventListener('keydown', e => {
+    if(e.code == 'Space') {
+        jump = true
+    }
+})
