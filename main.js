@@ -25,8 +25,6 @@ const ExtendClass = (xCoor, image) => {
             this.height = 50
         }
         draw() {
-            // ctx.fillStyle = color
-            // ctx.fillRect(this.x, this.y, this.width, this.height)
             ctx.drawImage(image, this.x, this.y)
         }
     }
